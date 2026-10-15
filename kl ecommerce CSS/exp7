@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Information Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #1976d2;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        #message {
+            color: red;
+            margin: 10px;
+        }
+
+        .weather-card {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f9ff;
+            border-radius: 15px;
+        }
+
+        .weather-card h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #weatherIcon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .temperature {
+            font-size: 40px;
+            font-weight: bold;
+            color: #1976d2;
+            margin: 10px;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box b {
+            display: block;
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 500px) {
+            .search-box {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Weather Dashboard</h1>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="city"
+                placeholder="Enter city name"
+            >
+
+            <button onclick="getWeather()">Search</button>
+        </div>
+
+        <p id="message"></p>
+
+        <div class="weather-card" id="weatherCard">
+
+            <h2 id="cityName">City</h2>
+
+            <img id="weatherIcon" src="" alt="Weather Icon">
+
+            <p id="condition">Condition</p>
+
+            <div class="temperature" id="temperature">
+                -- °C
+            </div>
+
+            <div class="info">
+
+                <div class="info-box">
+                    <b>Humidity</b>
+                    <span id="humidity">-- %</span>
+                </div>
+
+                <div class="info-box">
+                    <b>Wind Speed</b>
+                    <span id="wind">-- m/s</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Replace this with your OpenWeatherMap API key
+        const API_KEY = "YOUR_API_KEY";
+
+        async function getWeather() {
+
+            const city = document.getElementById("city").value.trim();
+            const message = document.getElementById("message");
+            const weatherCard = document.getElementById("weatherCard");
+
+            if (city === "") {
+                message.textContent = "Please enter a city name.";
+                weatherCard.style.display = "none";
+                return;
+            }
+
+            message.textContent = "Loading...";
+
+            try {
+
+                const url =
+                    `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+
+                // Fetch weather data
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error("City not found");
+                }
+
+                // Convert response to JSON
+                const data = await response.json();
+
+                // Display data
+                document.getElementById("cityName").textContent =
+                    `${data.name}, ${data.sys.country}`;
+
+                document.getElementById("temperature").textContent =
+                    `${data.main.temp} °C`;
+
+                document.getElementById("condition").textContent =
+                    data.weather[0].description;
+
+                document.getElementById("humidity").textContent =
+                    `${data.main.humidity} %`;
+
+                document.getElementById("wind").textContent =
+                    `${data.wind.speed} m/s`;
+
+                document.getElementById("weatherIcon").src =
+                    `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+                weatherCard.style.display = "block";
+
+                message.textContent = "";
+
+            } catch (error) {
+
+                weatherCard.style.display = "none";
+
+                message.textContent =
+                    "City not found or unable to fetch weather data.";
+
+            }
+        }
+
+        // Search when Enter key is pressed
+        document.getElementById("city").addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                getWeather();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

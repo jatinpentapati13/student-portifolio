@@ -1,0 +1,39 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background-color: lightgray;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: navy;
+    padding: 15px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.card:hover {
+    background-color: lightblue;
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

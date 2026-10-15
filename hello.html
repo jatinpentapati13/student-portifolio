@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>😂 Roast Day 😂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(-45deg,#ff0055,#ff9800,#00c9ff,#6a00ff);
+background-size:400% 400%;
+animation:bg 18s ease infinite;
+}
+@keyframes bg{
+0%,100%{background-position:0 50%}
+50%{background-position:100% 50%}
+}
+
+.card{
+width:90%;
+max-width:750px;
+padding:35px;
+text-align:center;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(15px);
+border-radius:25px;
+color:#fff;
+box-shadow:0 0 40px rgba(0,0,0,.4);
+animation:show 1s;
+z-index:5;
+}
+
+@keyframes show{
+from{opacity:0;transform:translateY(60px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+h1{
+font-size:55px;
+animation:glow 3s ease-in-out infinite;
+}
+
+@keyframes glow{
+0%,100%{text-shadow:0 0 15px #fff}
+50%{text-shadow:0 0 35px yellow,0 0 55px hotpink}
+}
+
+.face{
+font-size:110px;
+animation:bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-18px) rotate(-5deg)}
+}
+
+#roast{
+margin:20px;
+font-size:28px;
+font-weight:bold;
+min-height:70px;
+transition:.4s;
+}
+
+button{
+padding:16px 35px;
+border:none;
+border-radius:40px;
+font-size:18px;
+cursor:pointer;
+background:#ff1744;
+color:#fff;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.08);
+box-shadow:0 0 25px gold;
+}
+
+.float{
+position:fixed;
+font-size:2rem;
+pointer-events:none;
+animation:fly linear infinite;
+}
+
+@keyframes fly{
+0%{transform:translateY(120vh)}
+100%{transform:translateY(-130vh) translateX(30px)}
+}
+
+footer{
+position:fixed;
+bottom:10px;
+width:100%;
+text-align:center;
+color:#fff;
+font-size:15px;
+}
+
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+background:#fff;
+color:#222;
+padding:25px;
+border-radius:20px;
+font-size:28px;
+font-weight:bold;
+animation:pop 4s forwards;
+z-index:10;
+}
+
+@keyframes pop{
+0%{transform:translate(-50%,-50%) scale(0)}
+20%{transform:translate(-50%,-50%) scale(1.1)}
+80%{opacity:1}
+100%{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="popup">
+😂 EM CHOOSTHUNNAV RA ERRIPUKA 😂
+</div>
+
+<div class="card">
+
+<div class="face">🤣</div>
+
+<h1>HI RA KOJJA</h1>
+
+<h2 id="friend">KOJJA😎</h2>
+
+<div id="roast">
+NEXT NOKKAKAPOTHE KOJJA🤣🤣
+</div>
+
+<button onclick="nextroast()">
+😂 NEXT 
+</button>
+
+</div>
+
+<footer>
+NINNU DENGADANIKE CHESANU RA 😎
+</footer>
+
+<script>
+
+const friend="EE PAGE CLOSE CHESTHE KOJJA🤣🤣";
+document.getElementById("friend").innerHTML=friend;
+
+const roasts=[
+"😂 NUV ERRIPUK VI!",
+"🍗 NI PILLA EALA UNDHI BHAI!",
+"🥳 CONGRAGULATIONS YOU ARE PREGNANT!",
+"🤣THALLIVI KAABOTHUNNAV ANTUNNA",
+"🎂 MOKHAM ENTRA MOGGA LA PETTAV",
+"😎 GATHI LEKA GANJI THAGUTUNTHE LANJA VACCHI LASSI ADIGINDHI ANTA",
+"🍕 ALA CHOODAKU GROUND KI VESI DENGUTHA!",
+"😂 KOTTU NUV KOTTU SIGGU LEKUNDA NEXT KODUTHOONE UNDU.",
+"🎮INTHA CHEPPINA SIGGU MODDA RALEDH ENTRA PUKA NIKU!",
+"🍟 CHEPPI BOKKA MODDA BEY NIKU!"
+];
+
+let i=0;
+
+function nextroast(){
+
+document.getElementById("roast").innerHTML=roasts[i];
+
+i=(i+1)%roasts.length;
+
+confetti({
+particleCount:120,
+spread:150,
+origin:{y:.6}
+});
+
+}
+
+window.onload=()=>{
+nextRoast();
+
+setInterval(()=>{
+confetti({
+particleCount:10,
+spread:45,
+startVelocity:18,
+gravity:.6,
+origin:{x:Math.random(),y:Math.random()*0.4}
+});
+},700);
+};
+
+document.addEventListener("click",e=>{
+confetti({
+particleCount:20,
+spread:60,
+origin:{
+x:e.clientX/window.innerWidth,
+y:e.clientY/window.innerHeight
+}
+});
+});
+
+const emojis=["😂","🤣","😎","🎉","🍕","🍗","🥳","⭐","🎈"];
+
+for(let j=0;j<40;j++){
+
+let d=document.createElement("div");
+
+d.className="float";
+
+d.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+
+d.style.left=Math.random()*100+"vw";
+d.style.animationDuration=(8+Math.random()*8)+"s";
+d.style.animationDelay=(-Math.random()*12)+"s";
+d.style.opacity=.8;
+
+document.body.appendChild(d);
+
+}
+
+const titles=[
+"😂 ROAST MODE",
+"🤣 LEGEND DETECTED",
+"🎉 PARTY TIME",
+"🍗 TREAT WHERE?",
+"🥳 HAVE FUN!"
+];
+
+setInterval(()=>{
+document.title=titles[Math.floor(Math.random()*titles.length)];
+},2000);
+
+</script>
+
+</body>
+</html>
